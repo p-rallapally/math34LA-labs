@@ -1,16 +1,16 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["marimo", "numpy", "plotly"]
+# dependencies = ["marimo==0.25.2", "numpy", "plotly==7.1.0"]
 # ///
 
 import marimo
 
 __generated_with = "0.25.2"
-app = marimo.App(width="full", app_title="MATH 34LA · Week 6")
+app = marimo.App(width="full", app_title="MATH 34LA: Week 6 Analysis File")
 
 
-@app.cell
-def _():
+@app.cell(hide_code=True)
+def imports():
     import marimo as mo
     import numpy as np
     import plotly.graph_objects as go
@@ -19,318 +19,773 @@ def _():
     return go, make_subplots, mo, np
 
 
+
+
 @app.cell(hide_code=True)
-def _(mo):
+def title(mo):
     mo.md(r"""
     # MATH 34LA: Week 6 Analysis File
-    *MATH 34 LA Students · Fall 2026 · Adapted from the original R Markdown lab*
 
-    # Python and marimo Tutorial
-    NOTE: This section is background to help you understand programming. You will work with pre-existing code and clear instructions for edits. You will not be tested on coding in quizzes or exams. Our goal is to help you feel more familiar and confident using computer code to explore the calculus models in this class.
-
-    This is a marimo notebook: explanatory Markdown, equations, code, and results live together. Run a code cell with its play button; marimo updates dependent cells automatically. Use the controls below to explore models without editing their implementation. Your answers still belong on your worksheet.
-
-    The original lab used [R Markdown](http://rmarkdown.rstudio.com). Here, Python executes Euler's method rapidly to **simulate the dynamics** of biological systems.
-
-    ## Cells of code
-    Code cells play the role of R Markdown chunks. Within a code cell, write Python. Python can act as a calculator. A `#` starts a comment. Unlike R's automatic printing of multiple expressions, we collect results in a table so every result is visible.
+    *MATH 34 LA Students · Fall 2026*
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.ui.table([
-        {"Calculation": "3 + 4  # Addition", "Result": 3 + 4},
-        {"Calculation": "3 - 4  # Subtraction", "Result": 3 - 4},
-        {"Calculation": "3 * 4  # Multiplication", "Result": 3 * 4},
-        {"Calculation": "3 / 4  # Division", "Result": 3 / 4},
-    ], selection=None)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
+def narrative_0(mo):
     mo.md(r"""
-    ### Variable assignment and vectors
-    The real power of code is saving values under names. Python uses `=` where R uses `<-`. NumPy arrays are numerical vectors; `np.array([1, 2, 3, 4])` replaces R's `c(1,2,3,4)`. Multiplication by a scalar acts on each element of an array.
+    # Python and marimo Tutorial
 
-    Read the following code, then check the results. Is the product what you expected?
+    NOTE: This section is provided as background information for you to better understand how Python and programming work. In this class, you will be working with pre-existing code, and we will always provide you with very clear instructions for how to edit that code, if you need to. You will also not be tested on how to code in quizzes or on exams. Our goal is to help you feel more familiar and more confident looking at and, ultimately using computer code to further explore the calculus models we are studying in this class.
+
+    This is a Python marimo notebook. Markdown is a simple formatting syntax for authoring formatted text. For more details on using marimo see <https://docs.marimo.io/>.
+
+    When you run this notebook, a document will be displayed that includes both content as well as the output of any embedded Python code cells within the document.
+
+    For the purposes of this class, we will be using Python in the computer lab to help us execute Euler's Method rapidly to *simulate the dynamics* of biological systems. To do this, there are a few details about how Python works that you'll need to know.
+
+    ## Chunks of code
+
+    marimo lets us separate *code* from *text*, which makes it easier to see and describe what we are doing. You can recognize cells of code by the Python syntax highlighting and the code background.
     """)
     return
 
 
-@app.cell
-def _(mo, np):
-    a = 7  # Save the value 7 under the name a
-    vector_a = np.array([1, 2, 3, 4])  # A vector of four numbers
-    mo.md(f"`a = {a}`,   `vector_a = {vector_a.tolist()}`,   `a * vector_a = {(a * vector_a).tolist()}`")
+@app.cell(hide_code=True)
+def code_1(mo):
+    def run_chunk_1():
+        _outputs = []
+        pass
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_1,)
+
+
+@app.cell(hide_code=True)
+def output_1(run_chunk_1):
+    chunk_1_result = run_chunk_1()
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def narrative_1(mo):
+    mo.md(r"""
+    Within a chunk, you must write in code. For example, we can use Python like a calculator. In the marimo editor, press the play button for a cell to execute that cell. In the published companion, the code runs automatically; changing an input updates the relevant results.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def code_2(mo):
+    def run_chunk_2():
+        _outputs = []
+        _outputs.append(3 + 4)
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_2,)
+
+
+@app.cell(hide_code=True)
+def output_2(mo, run_chunk_2):
+    chunk_2_result = run_chunk_2()
+    mo.vstack([mo.as_html(_value) for _value in chunk_2_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_2(mo):
+    mo.md(r"""
+    We can put multiple lines of code into a chunk, and we can use comments to say what those lines of code do. Comments are preceded by a # symbol, and marimo highlights that text for us so that we can easily recognize it.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def code_3(mo):
+    def run_chunk_3():
+        _outputs = []
+        _outputs.append(3 + 4) # Addition
+        _outputs.append(3 - 4) # Subtraction
+        _outputs.append(3 * 4) # Multiplication
+        _outputs.append(3 / 4) # Division
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_3,)
+
+
+@app.cell(hide_code=True)
+def output_3(mo, run_chunk_3):
+    chunk_3_result = run_chunk_3()
+    mo.vstack([mo.as_html(_value) for _value in chunk_3_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_3(mo):
+    mo.md(r"""
+    But the real power of code is that we can save our work using something called "variable assignment." The equals sign tells Python to save the number, vector, or other information on the right using the name on the left.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def code_4(mo):
+    def run_chunk_4():
+        _outputs = []
+        a = 7 # Assign the letter "a" the value of 7
+
+        # Check to see if Python saved this information correctly by typing the name of the assigned variable
+        _outputs.append(a)
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_4,)
+
+
+@app.cell(hide_code=True)
+def output_4(mo, run_chunk_4):
+    chunk_4_result = run_chunk_4()
+    mo.vstack([mo.as_html(_value) for _value in chunk_4_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_4(mo):
+    mo.md(r"""
+    Conveniently, Python can also us save strings of numbers using variable assignment.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def code_5(mo, np):
+    def run_chunk_5():
+        _outputs = []
+        vector_a = np.array([1, 2, 3, 4]) # Here, "np.array()" creates a numerical vector from four numbers separated by commas.
+
+        # Now we can see that "vector_a" has four values saved within it.
+        _outputs.append(vector_a)
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_5,)
+
+
+@app.cell(hide_code=True)
+def output_5(mo, run_chunk_5):
+    chunk_5_result = run_chunk_5()
+    mo.vstack([mo.as_html(_value) for _value in chunk_5_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_5(mo):
+    mo.md(r"""
+    Once we have saved information, we can perform mathematical operations with that saved information. For example, we can multiply our vector by our constant.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def code_6(mo, np):
+    def run_chunk_6():
+        _outputs = []
+        a = 7
+        vector_a = np.array([1, 2, 3, 4])
+
+        _outputs.append(a*vector_a) # Is this the answer you expected?
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_6,)
+
+
+@app.cell(hide_code=True)
+def output_6(mo, run_chunk_6):
+    chunk_6_result = run_chunk_6()
+    mo.vstack([mo.as_html(_value) for _value in chunk_6_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_6(mo):
     mo.md(r"""
     # Simulating viral dynamics using Euler's Method
-    Python lets us do many long calculations **even faster than Google Sheets**! Let's explore how viral load decays over time.
+
+    The real beauty of Python is that it allows us to do many, long calculations **even faster than Google Sheets**!
+
+    Let's explore that by using Euler's Method to simulate how viral load decays over time.
 
     ## A protease inhibitor-treated patient
-    We begin with the original lab's simplified assumption: treatment temporarily sets viral production $p$ to zero.
 
-    $$V' = \frac{dV}{dt} = p-cV = 0-cV = -cV.$$
+    We'll begin by considering a patient who has been treated with protease inhibitors, so that their viral production $p$ is temporarily 0.
 
-    Euler's method adds small changes calculated using $V'$:
+    $$
+    V' = \frac{dV}{dt} = p-cV = 0-cV = -cV
+    $$
 
-    $$V_{i+1}=V_i+(t_{i+1}-t_i)(p-cV_i).$$
-
-    You've practiced this in Google Sheets. Use $c=0.3256$ per day (the source's average for three patients), $V_0=185000$ particles per mL, and one-day steps.
+    According to Euler's Method, we can simulate the decay in viral load by repeatedly adding up small changes calculated by using V'. You've just practiced this on your Google Sheet. Let's do the same calculations here.
     """)
     return
 
 
-@app.cell
-def _(mo):
-    # Explicit first steps: match the spreadsheet before introducing a loop.
-    _baseline_c = 0.3256
-    _baseline_p = 0
-    _V0 = 185000.0
-    _t0, _t1, _t2, _t3 = 0, 1, 2, 3
-    _V1 = _V0 + (_t1 - _t0) * (_baseline_p - _baseline_c * _V0)
-    _V2 = _V1 + (_t2 - _t1) * (_baseline_p - _baseline_c * _V1)
-    _V3 = _V2 + (_t3 - _t2) * (_baseline_p - _baseline_c * _V2)
-    manual_values = [_V0, _V1, _V2, _V3]
-    mo.ui.table([{"Time (days)": i, "Viral load (particles per mL)": v}
-                 for i, v in enumerate(manual_values)], selection=None)
-    return (manual_values,)
+@app.cell(hide_code=True)
+def code_7(mo):
+    def run_chunk_7():
+        _outputs = []
+        c = 0.3256 # Average decay value of the three patients
+        p = 0 # Production rate when treated by protease inhibitors
+
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        # First calculation
+        t1 = 1 # First timepoint
+        dt = t1 - t0 # Change in time
+        Vprime = p-c*V0 # Change in virus, based on the differential equation above
+        V1 = V0 + dt*Vprime # New viral amount
+
+        # Second calculation
+        t2 = 2 # First timepoint
+        dt = t2 - t1 # Change in time
+        Vprime = p-c*V1 # Change in virus, based on the differential equation above
+        V2 = V1 + dt*Vprime # New viral amount
+
+        # First calculation
+        t3 = 3 # First timepoint
+        dt = t3 - t2 # Change in time
+        Vprime = p-c*V2 # Change in virus, based on the differential equation above
+        V3 = V2 + dt*Vprime # New viral amount
+
+        # Print the results
+        _outputs.append(V0)
+        _outputs.append(V1)
+        _outputs.append(V2)
+        _outputs.append(V3)
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_7,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def output_7(mo, run_chunk_7):
+    chunk_7_result = run_chunk_7()
+    mo.vstack([mo.as_html(_value) for _value in chunk_7_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_7(mo):
     mo.md(r"""
     Check these answers against your Google Sheet. Do they agree?
 
+
     ### Speeding up our calculation
-    Four lines per step is inefficient. A **for loop** repeats the same calculation. The function below creates timepoints and empty placeholders, assigns the initial viral load, then fills each next value. Python counts positions from zero, so position `0` holds the initial value.
 
-    The same function will be reused for every experiment; it does not replace Euler's method with a different solver.
+    While not as bad as writing out calculations by hand, having four lines of code for every Python calculation doesn't seem very efficient! That's where **for loops** come in. These are programming tools that let us repeat calculations many times. Let's rewrite our last three calculations in a for loop. Look over the comments on the code and see if you can recognize how the calculation repeats itself.
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(np):
-    def simulate(clearance=0.3256, production=0.0, initial=185000.0, end=20.0, step=0.01):
-        """Explicit Euler on an inclusive grid; step must divide end."""
-        if not all(np.isfinite(x) for x in (clearance, production, initial, end, step)):
-            raise ValueError("Parameters must be finite.")
-        if clearance < 0 or production < 0 or initial < 0 or end <= 0 or step <= 0:
-            raise ValueError("Use nonnegative model parameters and positive time/step.")
-        count = int(round(end / step))
-        if not np.isclose(count * step, end, rtol=0, atol=1e-10):
-            raise ValueError("The timestep must divide the duration exactly.")
-        times = np.linspace(0.0, end, count + 1)
-        values = np.full(times.shape, np.nan)  # Empty placeholders, like NaN * vector_t
-        values[0] = initial  # Save initial viral load in the first position
-        for i in range(1, len(times)):
-            dt = times[i] - times[i - 1]  # Current minus previous time
-            derivative = production - clearance * values[i - 1]  # Previous V
-            values[i] = values[i - 1] + dt * derivative  # Euler update
-        return times, values
+def code_8(mo, np):
+    def run_chunk_8():
+        _outputs = []
+        c = 0.3256 # Average decay value of the three patients
+        p = 0 # Production rate when treated by protease inhibitors
 
-    def exact_solution(times, clearance, production=0.0, initial=185000.0):
-        """Optional analytical reference; never used to generate Euler values."""
-        if clearance == 0:
-            return initial + production * times
-        equilibrium = production / clearance
-        return equilibrium + (initial - equilibrium) * np.exp(-clearance * times)
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
 
-    return exact_solution, simulate
+        ## Setting up vectors to hold our information
+        vector_t = np.linspace(0, 3, int(round(3 / 1)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
 
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
 
-@app.cell(hide_code=True)
-def _(manual_values, mo, np, simulate):
-    loop_t, loop_v = simulate(end=3, step=1)
-    mo.vstack([
-        mo.ui.table([{"Time (days)": float(t), "Loop viral load": float(v)}
-                     for t, v in zip(loop_t, loop_v)], selection=None),
-        mo.md(f"Loop and explicit steps agree: **{np.allclose(loop_v, manual_values)}**. "
-              "Did you get the same series in Google Sheets?"),
-    ])
-    return loop_t, loop_v
+        # Print the results
+        _outputs.append(vector_V)
+        return _outputs
+
+    mo.show_code(position="above")
+    return (run_chunk_8,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def output_8(mo, run_chunk_8):
+    chunk_8_result = run_chunk_8()
+    mo.vstack([mo.as_html(_value) for _value in chunk_8_result])
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_8(mo):
     mo.md(r"""
+    Check your results. Did you get the same series of V values as the above chunk of code and as the Google Sheet?
+
+
     ### Plotting our results
-    Plots visualize the simulated values. The first plot uses days 0–3. The next runs for 20 days with one-day steps. How does this compare with Google Sheets?
+
+    Python also excels as a flexible piece of plotting software. Here, we're going to use it to visualize our results so far.
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(go, make_subplots, simulate):
-    def single_plot(times, values, title, reference=None):
-        fig = go.Figure(go.Scatter(x=times, y=values, mode="lines", name="Euler"))
-        if reference is not None:
-            fig.add_trace(go.Scatter(x=times, y=reference, mode="lines",
-                                    name="Exact reference", line={"dash": "dash"}))
-        fig.update_layout(title=title, template="plotly_white", height=360,
-                          xaxis_title="Time (days)", yaxis_title="Viral load (particles per mL)",
-                          margin={"l": 65, "r": 25, "t": 60, "b": 55})
-        return fig
+def code_9(go, make_subplots, mo, np):
+    def run_chunk_9():
+        _outputs = []
+        # The "height" and "width" arguments below tell Python how large to make the figure.
 
-    def scenario_plot(clearances, productions, labels, upper):
-        fig = make_subplots(rows=1, cols=3, subplot_titles=labels, shared_yaxes=True)
-        rows = []
-        for col, (clearance, production) in enumerate(zip(clearances, productions), start=1):
-            times, values = simulate(clearance, production)
-            fig.add_trace(go.Scatter(x=times, y=values, mode="lines", name=labels[col-1]), row=1, col=col)
-            fig.update_xaxes(title_text="Time (days)", dtick=5, row=1, col=col)
-            fig.update_yaxes(range=[0, upper], dtick=50000, row=1, col=col)
-            rows.append({"Scenario": labels[col-1], "c (per day)": clearance,
-                         "p (particles/mL/day)": production, "V at day 20": float(values[-1]),
-                         "Maximum simulated V": float(max(values))})
-        fig.update_yaxes(title_text="Viral load (particles per mL)", row=1, col=1)
-        fig.update_layout(template="plotly_white", height=390, showlegend=False)
-        return fig, rows
+        # Running our simulation
+        c = 0.3256 # Average decay value of the three patients
+        p = 0 # Production rate when treated by protease inhibitors
 
-    return scenario_plot, single_plot
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        ## Setting up vectors to hold our information
+        vector_t = np.linspace(0, 3, int(round(3 / 1)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our Plot
+
+        _fig = make_subplots(rows=1, cols=1, shared_yaxes=True) # This line tells Python how to set up the figure margins on all sides.
+        _fig.update_layout(template="plotly_white", height=300, width=400, showlegend=False, margin=dict(l=65, r=25, t=45, b=55))
+        _scenarios = []
+
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=1) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=1) # Label the y-axis
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=1)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        return _fig, _scenarios
+
+    mo.accordion({"Show Python code": mo.show_code(position="above")})
+    return (run_chunk_9,)
 
 
 @app.cell(hide_code=True)
-def _(loop_t, loop_v, mo, simulate, single_plot):
-    _long_t, _long_v = simulate(step=1)
-    mo.vstack([single_plot(loop_t, loop_v, "First three days · Δt = 1 day"),
-               single_plot(_long_t, _long_v, "Twenty days · Δt = 1 day")])
+def output_9(run_chunk_9):
+    chunk_9_result = run_chunk_9()
+    chunk_9_result[0]
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def narrative_9(mo):
     mo.md(r"""
-    Finally, Euler's method gets more accurate as the timestep decreases (for this model over a fixed duration). Instead of adding spreadsheet rows, choose a smaller $\Delta t$.
-
-    Predict what will change before using the control. The original fine-step example used $\Delta t=0.01$ days. Notice how this smooths the curve! The optional exact reference is an added teaching aid, not a replacement for Euler's method.
+    So far, this isn't so impressive. But let's run our simulation for much longer, now that we have a for-loop tool to do so!
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    timestep = mo.ui.dropdown(options={"1 day": 1.0, "0.5 days": 0.5, "0.1 days": 0.1, "0.01 days (original)": 0.01}, value="0.01 days (original)", label="Euler timestep")
-    show_exact = mo.ui.checkbox(value=False, label="Show exact solution (extension)")
-    mo.hstack([timestep, show_exact], justify="start")
-    return show_exact, timestep
+def code_10(go, make_subplots, mo, np):
+    def run_chunk_10():
+        _outputs = []
+        # Running our simulation
 
+        c = 0.3256 # Average decay value of the three patients
+        p = 0 # Production rate when treated by protease inhibitors
 
-@app.cell
-def _(exact_solution, np, simulate, timestep):
-    fine_t, fine_v = simulate(step=timestep.value)
-    fine_exact = exact_solution(fine_t, 0.3256)
-    max_error = float(np.max(np.abs(fine_v - fine_exact)))
-    return fine_exact, fine_t, fine_v, max_error
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        ## Setting up vectors to hold our information
+        vector_t = np.linspace(0, 20, int(round(20 / 1)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+
+        _fig = make_subplots(rows=1, cols=1, shared_yaxes=True) # This line tells Python how to set up the figure margins on all sides.
+        _fig.update_layout(template="plotly_white", height=300, width=400, showlegend=False, margin=dict(l=65, r=25, t=45, b=55))
+        _scenarios = []
+
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=1) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=1) # Label the y-axis
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=1)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        return _fig, _scenarios
+
+    mo.accordion({"Show Python code": mo.show_code(position="above")})
+    return (run_chunk_10,)
 
 
 @app.cell(hide_code=True)
-def _(
-    fine_exact,
-    fine_t,
-    fine_v,
-    max_error,
-    mo,
-    show_exact,
-    single_plot,
-    timestep,
-):
-    mo.vstack([
-        single_plot(fine_t, fine_v, "Timestep exploration", fine_exact if show_exact.value else None),
-        mo.md(f"**Δt = {timestep.value:g} days** · **{len(fine_t)-1:,} Euler steps** · "
-              f"**V(20) ≈ {fine_v[-1]:,.2f} particles/mL**"),
-        mo.md(f"Optional exact-reference comparison: maximum absolute error across the sampled times "
-              f"is **{max_error:,.2f} particles/mL**.") if show_exact.value else mo.md("Compare this curve with the one-day calculation above."),
-    ])
+def output_10(run_chunk_10):
+    chunk_10_result = run_chunk_10()
+    chunk_10_result[0]
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def narrative_10(mo):
     mo.md(r"""
+    How does this compare to using the Google Sheet?
+
+    Finally, remember that Euler's Method gets more accurate the smaller the timesteps that we take. With Python, we can flexibly adjust our timestep value easily without needing to add more rows to a Google Sheet or needing to do more calculations by hand. In the chunk below, we are adding a "delta_t" that tells Python how large of timesteps to take.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def timestep_controls(mo):
+    timestep = mo.ui.dropdown(options={"1": 1.0, "0.5": 0.5, "0.1": 0.1, "0.01": 0.01}, value="0.01", label="delta_t (days)")
+    timestep
+    return (timestep,)
+
+
+@app.cell(hide_code=True)
+def code_11(go, make_subplots, mo, np):
+    def run_chunk_11(selected_step):
+        _outputs = []
+        # Running our simulation
+
+        c = 0.3256 # Average decay value of the three patients
+        p = 0 # Production rate when treated by protease inhibitors
+
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        delta_t = selected_step # Length of timesteps
+
+        ## Setting up vectors to hold our information
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+
+        _fig = make_subplots(rows=1, cols=1, shared_yaxes=True) # This line tells Python how to set up the figure margins on all sides.
+        _fig.update_layout(template="plotly_white", height=300, width=400, showlegend=False, margin=dict(l=65, r=25, t=45, b=55))
+        _scenarios = []
+
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=1) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=1) # Label the y-axis
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=1)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        return _fig, _scenarios
+
+    mo.accordion({"Show Python code": mo.show_code(position="above")})
+    return (run_chunk_11,)
+
+
+@app.cell(hide_code=True)
+def output_11(run_chunk_11, timestep):
+    chunk_11_result = run_chunk_11(timestep.value)
+    chunk_11_result[0]
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_11(mo):
+    mo.md(r"""
+    Notice how that smoothed out our curve!
+
     ### Using Python to explore different parameter values: c
-    Now choose two new values of viral clearance, $c_2$ and $c_3$. Draw the results on your worksheet. The first panel retains $c=0.3256$; $p=0$, $V_0=185000$, $\Delta t=0.01$, and the 20-day duration remain fixed.
 
-    Predict: will faster clearance change the starting value, the rate of decline, or both? All three controls begin with the original lab's defaults.
+    Now the real fun can begin! We're going to use Python to simulate different values of viral loss. In the code below, choose two new values of c (c2 and c3) to try. Draw your results on your worksheet.
     """)
     return
 
 
-@app.cell
-def _(mo):
-    c2 = mo.ui.number(start=0, stop=5, step=0.0001, value=0.3256, label="c₂ (per day)")
-    c3 = mo.ui.number(start=0, stop=5, step=0.0001, value=0.3256, label="c₃ (per day)")
+@app.cell(hide_code=True)
+def clearance_controls(mo):
+    c2 = mo.ui.number(start=0, stop=5, step=0.0001, value=0.3256, label="c2")
+    c3 = mo.ui.number(start=0, stop=5, step=0.0001, value=0.3256, label="c3")
     mo.hstack([c2, c3], justify="start")
     return c2, c3
 
 
 @app.cell(hide_code=True)
-def _(c2, c3, scenario_plot):
-    clearance_fig, clearance_rows = scenario_plot(
-        [0.3256, c2.value, c3.value], [0, 0, 0],
-        ["c = 0.3256 (baseline)", f"c₂ = {c2.value:g}", f"c₃ = {c3.value:g}"], 185000)
-    return clearance_fig, clearance_rows
+def code_12(go, make_subplots, mo, np):
+    def run_chunk_12(selected_c2, selected_c3):
+        _outputs = []
+        # Running our simulation
+
+        c2 = selected_c2 # <--- FILL IN A NEW CHOICE OF C HERE
+
+        c3 = selected_c3 # <--- FILL IN A NEW CHOICE OF C HERE
+
+
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        delta_t = 0.01 # Length of timesteps
+
+        # Simulation 1
+        ## Setting up vectors to hold our information
+        c = 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+        p = 0 # Production rate when treated by protease inhibitors
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _fig = make_subplots(rows=1, cols=3, shared_yaxes=True) # This line tells Python how to set up the figure margins on all sides.
+        _fig.update_layout(template="plotly_white", height=300, width=1200, showlegend=False, margin=dict(l=65, r=25, t=45, b=55))
+        _scenarios = []
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=1) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=1) # Label the y-axis
+        _fig.add_annotation(text=f"c = {c}", x=0.5, y=1.08, xref="x domain", yref="y domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, V0], row=1, col=1) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=1)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=1) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=1)
+
+        # Simulation 2
+        ## Setting up vectors to hold our information
+        c = c2 # Choose the second simulation value
+        p = 0 # Production rate when treated by protease inhibitors
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=2) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=2) # Label the y-axis
+        _fig.add_annotation(text=f"c = {c2}", x=0.5, y=1.08, xref="x2 domain", yref="y2 domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, V0], row=1, col=2) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=2)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=2) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=2)
+
+        # Simulation 3
+        ## Setting up vectors to hold our information
+        c = c3 # Choose the third simulation value
+        p = 0 # Production rate when treated by protease inhibitors
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=3) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=3) # Label the y-axis
+        _fig.add_annotation(text=f"c = {c3}", x=0.5, y=1.08, xref="x3 domain", yref="y3 domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, V0], row=1, col=3) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=3)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=3) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=3)
+        return _fig, _scenarios
+
+    mo.accordion({"Show Python code": mo.show_code(position="above")})
+    return (run_chunk_12,)
 
 
 @app.cell(hide_code=True)
-def _(c2, c3, clearance_fig, clearance_rows, mo):
-    mo.vstack([clearance_fig, mo.ui.table(clearance_rows, selection=None),
-               mo.md(f"Compared with the fixed baseline, your clearance choices are **{c2.value:g}** and **{c3.value:g}** per day. "
-                     "Which curve falls most rapidly? Draw the curves on your worksheet.")])
+def output_12(c2, c3, run_chunk_12):
+    chunk_12_result = run_chunk_12(c2.value, c3.value)
+    chunk_12_result[0]
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def narrative_12(mo):
     mo.md(r"""
     ### Using Python to explore different parameter values: p
-    Last, explore a patient who **isn't** being treated with protease inhibitors. In the original model, $p>0$.
 
-    The original production choices are 1,000, 10,000, and 100,000 particles/mL/day. Clearance remains $c=0.3256$, with the same initial load, duration, and fine timestep. Predict which trajectories will increase or decrease before changing the inputs.
-
-    The original plot uses a common 0–300,000 vertical axis. The last curve can exceed that limit; the optional expanded axis makes that part visible.
+    Last, we can explore the dynamics of viral load in a patient who *isn't* being treated with protease inhibitors. For this patient, p > 0.
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    p1 = mo.ui.number(start=0, stop=200000, step=1000, value=1000, label="p₁ (particles/mL/day)")
-    p2 = mo.ui.number(start=0, stop=200000, step=1000, value=10000, label="p₂ (particles/mL/day)")
-    p3 = mo.ui.number(start=0, stop=200000, step=1000, value=100000, label="p₃ (particles/mL/day)")
-    expand_axis = mo.ui.checkbox(value=False, label="Expand common y-axis to include all simulated values")
-    mo.vstack([mo.hstack([p1, p2, p3], justify="start"), expand_axis])
-    return expand_axis, p1, p2, p3
+def production_controls(mo):
+    p1 = mo.ui.number(start=0, stop=200000, step=1000, value=1000, label="p1")
+    p2 = mo.ui.number(start=0, stop=200000, step=1000, value=10000, label="p2")
+    p3 = mo.ui.number(start=0, stop=200000, step=1000, value=100000, label="p3")
+    mo.hstack([p1, p2, p3], justify="start")
+    return p1, p2, p3
 
 
 @app.cell(hide_code=True)
-def _(expand_axis, p1, p2, p3, scenario_plot):
-    production_fig, production_rows = scenario_plot(
-        [0.3256] * 3, [p1.value, p2.value, p3.value],
-        [f"p₁ = {p1.value:g}", f"p₂ = {p2.value:g}", f"p₃ = {p3.value:g}"], 300000)
-    production_max = max(row["Maximum simulated V"] for row in production_rows)
-    if expand_axis.value:
-        production_fig.update_yaxes(range=[0, max(300000, production_max * 1.05)])
-    return production_fig, production_max, production_rows
+def code_13(go, make_subplots, mo, np):
+    def run_chunk_13(selected_p1, selected_p2, selected_p3):
+        _outputs = []
+        p1 = selected_p1
+
+        p2 = selected_p2
+
+        p3 = selected_p3
+
+
+        ## Starting timepoint
+        V0 = 185000 # Starting viral load
+        t0 = 0 # Starting timepoint
+
+        delta_t = 0.01 # Length of timesteps
+
+        # Simulation 1
+        ## Setting up vectors to hold our information
+        c = 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+        p = p1 # Production rate when treated by protease inhibitors; using first choice
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _fig = make_subplots(rows=1, cols=3, shared_yaxes=True) # This line tells Python how to set up the figure margins on all sides.
+        _fig.update_layout(template="plotly_white", height=300, width=1200, showlegend=False, margin=dict(l=65, r=25, t=45, b=55))
+        _scenarios = []
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=1) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=1) # Label the y-axis
+        _fig.add_annotation(text=f"p = {p1}", x=0.5, y=1.08, xref="x domain", yref="y domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, 3e5], row=1, col=1) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=1)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=1) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=1)
+
+        # Simulation 2
+        ## Setting up vectors to hold our information
+        c = 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+        p = p2 # Production rate when treated by protease inhibitors; using second choice
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=2) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=2) # Label the y-axis
+        _fig.add_annotation(text=f"p = {p2}", x=0.5, y=1.08, xref="x2 domain", yref="y2 domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, 3e5], row=1, col=2) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=2)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=2) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=2)
+
+        # Simulation 3
+        ## Setting up vectors to hold our information
+        c = 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+        p = p3 # Production rate when treated by protease inhibitors; using third choice
+
+        vector_t = np.linspace(0, 20, int(round(20 / delta_t)) + 1) # The "np.linspace" function tells Python to create a vector that counts from 0 to 3 to hold our timepoints.
+        vector_V = np.full(vector_t.shape, np.nan) # NaN stands for "Not a Number" and is a way of telling Python to create a vector that's full of empty placeholders for future viral load data.
+        vector_V[0] = V0 # This tells Python to save the initial viral load in the first position in our vector
+
+        for i in range(1, len(vector_t)): # This is our for loop. It's basically telling Python: "For each timestep, do Euler's method..."
+            dt = vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+            Vprime = p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+            vector_V[i] = vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+
+        # Making our plot
+        _x = vector_t # Tell Python what to put on the x-axis
+        _y = vector_V # Tell Python what to put on the y-axis
+        _mode = "lines" # Plot as a line
+        _fig.update_xaxes(title_text='Time (days)', row=1, col=3) # Label the x-axis
+        _fig.update_yaxes(title_text='Viral Load (particles per mL)', row=1, col=3) # Label the y-axis
+        _fig.add_annotation(text=f"p = {p3}", x=0.5, y=1.08, xref="x3 domain", yref="y3 domain", showarrow=False) # Add a title so we can distinguish the plots
+        _fig.update_yaxes(range=[0, 3e5], row=1, col=3) # Add y-axis limits so all plots scale the same
+        _fig.add_trace(go.Scatter(x=_x, y=_y, mode=_mode, name=f"c = {c:g}, p = {p:g}"), row=1, col=3)
+        _scenarios.append({"c": c, "p": p, "times": vector_t.copy(), "values": vector_V.copy()})
+        _fig.update_xaxes(tick0=0, dtick=5, gridcolor="lightgray", griddash="dash", row=1, col=3) # Add grid lines to make it easier to plot on your worksheet
+        _fig.update_yaxes(tick0=0, dtick=50000, gridcolor="lightgray", griddash="dash", row=1, col=3)
+        return _fig, _scenarios
+
+    mo.accordion({"Show Python code": mo.show_code(position="above")})
+    return (run_chunk_13,)
 
 
 @app.cell(hide_code=True)
-def _(expand_axis, mo, production_fig, production_max, production_rows):
-    mo.vstack([
-        production_fig, mo.ui.table(production_rows, selection=None),
-        mo.md("**Axis note:** some simulated values exceed the original 300,000 limit. Enable the expanded axis to see them.")
-        if production_max > 300000 and not expand_axis.value else mo.md("All simulated values fit within the displayed vertical range."),
-        mo.md("Draw these results on your worksheet and answer the questions about them there. "
-              "Explain why changing production can change whether the viral load grows or decays."),
-    ])
+def output_13(p1, p2, p3, run_chunk_13):
+    chunk_13_result = run_chunk_13(p1.value, p2.value, p3.value)
+    chunk_13_result[0]
+    return
+
+
+@app.cell(hide_code=True)
+def narrative_13(mo):
+    mo.md(r"""
+    Draw these results on your worksheet and answer the questions about them there.
+    """)
     return
 
 
