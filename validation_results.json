@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "default_cells_executed": 25,
+  "independent_recurrence_scenarios": 80,
+  "recurrence_tolerance": {
+    "rtol": 1e-10,
+    "atol": 1e-06
+  },
+  "first_four_values": [
+    185000.0,
+    124764.0,
+    84140.8416,
+    56744.58357504
+  ],
+  "maximum_absolute_errors_by_step": {
+    "1": 12910.509757159642,
+    ".5": 5953.976531560329,
+    ".1": 1123.1693715579167,
+    ".01": 110.94851879357884
+  },
+  "default_production_endpoints": [
+    3338.6531032339603,
+    30939.303418429015,
+    306945.8065703796
+  ],
+  "reactive_override_runs": 6,
+  "limitations": [
+    "Rscript unavailable: no live R comparison.",
+    "Controls tested through app.run definition overrides; browser clicking and visual QA not performed.",
+    "Browser WebAssembly execution not tested."
+  ]
+}

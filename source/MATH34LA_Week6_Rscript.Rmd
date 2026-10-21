@@ -1,0 +1,476 @@
+---
+title: 'MATH 34LA: Week 6 Analysis File'
+author: "MATH 34 LA Students"
+date: "Fall 2025"
+output: html_document
+---
+
+# R and R Markdown Tutorial
+
+NOTE: This section is provided as background information for you to better understand how R and programming work. In this class, you will be working with pre-existing code, and we will always provide you with very clear instructions for how to edit that code, if you need to. You will also not be tested on how to code in quizzes or on exams. Our goal is to help you feel more familiar and more confident looking at and, ultimately, using computer code to further explore the calculus models we are studying in this class.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+For the purposes of this class, we will be using R in the computer lab to help us execute Euler's Method rapidly to *simulate the dynamics* of biological systems. To do this, there are a few details about how R works that you'll need to know.
+
+## Chunks of code
+
+R markdown lets us separate *code* from *text*, which makes it easier to see and describe what we are doing. You can recognize chunks of code by the apostrophe and {r} symbols that start and end them, and by the gray background.
+
+```{r}
+
+```
+
+Within a chunk, you must write in code. For example, we can use R like a calculator. Press the green play button in the upper right corner of a chunk to execute that chunk. (You can also place your cursor anywhere in the chunk of code and press shift+ctrl+enter (shift+cmd+enter on a Mac) to run that chunk.)
+
+```{r}
+3 + 4
+```
+
+We can put multiple lines of code into a chunk, and we can use comments to say what those lines of code do. Comments are preceded by a # symbol, and R Studio turns that text green for us so that we can easily recognize it. 
+
+```{r}
+3 + 4 # Addition
+3 - 4 # Subtraction
+3 * 4 # Multiplication
+3 / 4 # Division
+```
+But the real power of code is that we can save our work using something called "variable assignment." The left-pointing arrow (less than symbol followed by a dash) tells R to save the number, vector, or other information on the right using the name on the left.
+
+```{r}
+a <- 7 # Assign the letter "a" the value of 7
+
+# Check to see if R saved this information correctly by typing the name of the assigned variable
+a
+```
+
+Conveniently, R can also us save strings of numbers using variable assignment.
+
+```{r}
+vector_a <- c(1,2,3,4) # Here, "c()" is the "concatenate" function that links together four numbers separated by commas.
+
+# Now we can see that "vector_a" has four values saved within it.
+vector_a
+```
+
+Once we have saved information, we can perform mathematical operations with that saved information. For example, we can multiply our vector by our constant.
+
+```{r}
+a <- 7
+vector_a <- c(1,2,3,4)
+
+a*vector_a # Is this the answer you expected?
+```
+
+
+# Simulating viral dynamics using Euler's Method
+
+The real beauty of R is that it allows us to do many, long calculations **even faster than Google Sheets**!
+
+Let's explore that by using Euler's Method to simulate how viral load decays over time.
+
+## A protease inhibitor-treated patient
+
+We'll begin by considering a patient who has been treated with protease inhibitors, so that their viral production $p$ is temporarily 0.
+
+$$
+V' = \frac{dV}{dt} = p-cV = 0-cV = -cV
+$$
+
+According to Euler's Method, we can simulate the decay in viral load by repeatedly adding up small changes calculated by using V'. You've just practiced this on your Google Sheet. Let's do the same calculations here.
+
+```{r}
+c <- 0.3256 # Average decay value of the three patients
+p <- 0 # Production rate when treated by protease inhibitors
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+# First calculation
+t1 <- 1 # First timepoint
+dt <- t1 - t0 # Change in time
+Vprime <- p-c*V0 # Change in virus, based on the differential equation above
+V1 <- V0 + dt*Vprime # New viral amount
+
+# Second calculation
+t2 <- 2 # First timepoint
+dt <- t2 - t1 # Change in time
+Vprime <- p-c*V1 # Change in virus, based on the differential equation above
+V2 <- V1 + dt*Vprime # New viral amount
+
+# First calculation
+t3 <- 3 # First timepoint
+dt <- t3 - t2 # Change in time
+Vprime <- p-c*V2 # Change in virus, based on the differential equation above
+V3 <- V2 + dt*Vprime # New viral amount
+
+# Print the results
+V0
+V1
+V2
+V3
+```
+Check these answers against your Google Sheet. Do they agree?
+
+
+### Speeding up our calculation
+
+While not as bad as writing out calculations by hand, having four lines of code for every R calculation doesn't seem very efficient! That's where **for loops** come in. These are programming tools that let us repeat calculations many times. Let's rewrite our last three calculations in a for loop. Look over the comments on the code and see if you can recognize how the calculation repeats itself.
+
+```{r}
+c <- 0.3256 # Average decay value of the three patients
+p <- 0 # Production rate when treated by protease inhibitors
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+## Setting up vectors to hold our information
+vector_t <- seq(from = 0, to = 3, by = 1) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Print the results
+vector_V
+```
+
+Check your results. Did you get the same series of V values as the above chunk of code and as the Google Sheet?
+
+
+### Plotting our results
+
+R also excels as a flexible piece of plotting software. Here, we're going to use it to visualize our results so far.
+
+```{r,fig.height=3, fig.width=4}
+# The "fig.height" and "fig.width" arguments above tell R how large to make the figure.
+
+# Running our simulation
+c <- 0.3256 # Average decay value of the three patients
+p <- 0 # Production rate when treated by protease inhibitors
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+## Setting up vectors to hold our information
+vector_t <- seq(from = 0, to = 3, by = 1) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our Plot
+
+par(mar=c(4,4,1,1)) # This line tells R how to set up the figure margins on all sides.
+
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     )
+
+```
+
+So far, this isn't so impressive. But let's run our simulation for much longer, now that we have a for-loop tool to do so!
+
+```{r,fig.height=3, fig.width=4}
+
+# Running our simulation
+
+c <- 0.3256 # Average decay value of the three patients
+p <- 0 # Production rate when treated by protease inhibitors
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+## Setting up vectors to hold our information
+vector_t <- seq(from = 0, to = 20, by = 1) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+
+par(mar=c(4,4,1,1)) # This line tells R how to set up the figure margins on all sides.
+
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     )
+
+```
+
+How does this compare to using the Google Sheet?
+
+Finally, remember that Euler's Method gets more accurate the smaller the timesteps that we take. With R, we can flexibly adjust our timestep value easily without needing to add more rows to a Google Sheet or needing to do more calculations by hand. In the chunk below, we are adding a "delta_t" that tells R how large of timesteps to take.
+
+```{r,fig.height=3, fig.width=4}
+
+# Running our simulation
+
+c <- 0.3256 # Average decay value of the three patients
+p <- 0 # Production rate when treated by protease inhibitors
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+delta_t <- 0.01 # Length of timesteps
+
+## Setting up vectors to hold our information
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+
+par(mar=c(4,4,1,1)) # This line tells R how to set up the figure margins on all sides.
+
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     )
+
+```
+Notice how that smoothed out our curve!
+
+### Using R to explore different parameter values: c
+
+Now the real fun can begin! We're going to use R to simulate different values of viral loss. In the code below, choose two new values of c (c2 and c3) to try. Draw your results on your worksheet.
+
+```{r,fig.height=3, fig.width=12}
+
+# Running our simulation
+
+c2 <- 0.3256 # <--- FILL IN A NEW CHOICE OF C HERE
+  
+c3 <- 0.3256 # <--- FILL IN A NEW CHOICE OF C HERE
+
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+delta_t <- 0.01 # Length of timesteps
+
+# Simulation 1
+## Setting up vectors to hold our information
+c <- 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+p <- 0 # Production rate when treated by protease inhibitors
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+par(mar=c(4,4,1,1),mfrow=c(1,3)) # This line tells R how to set up the figure margins on all sides.
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('c = ',c,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,V0), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 1.5E5, by = 5E4), lty=2, col='gray80')
+
+# Simulation 2
+## Setting up vectors to hold our information
+c <- c2 # Choose the second simulation value
+p <- 0 # Production rate when treated by protease inhibitors
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('c = ',c2,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,V0), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 1.5E5, by = 5E4), lty=2, col='gray80')
+
+# Simulation 3
+## Setting up vectors to hold our information
+c <- c3 # Choose the third simulation value
+p <- 0 # Production rate when treated by protease inhibitors
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('c = ',c3,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,V0), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 1.5E5, by = 5E4), lty=2, col='gray80')
+```
+
+
+
+
+### Using R to explore different parameter values: p
+
+Last, we can explore the dynamics of viral load in a patient who *isn't* being treated with protease inhibitors. For this patient, p > 0.
+
+```{r,fig.height=3, fig.width=12}
+
+p1 <- 1000
+
+p2 <- 10000
+
+p3 <- 100000
+
+
+## Starting timepoint
+V0 <- 185000 # Starting viral load
+t0 <- 0 # Starting timepoint
+
+delta_t <- 0.01 # Length of timesteps
+
+# Simulation 1
+## Setting up vectors to hold our information
+c <- 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+p <- p1 # Production rate when treated by protease inhibitors; using first choice
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+par(mar=c(4,4,1,1),mfrow=c(1,3)) # This line tells R how to set up the figure margins on all sides.
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('p = ',p1,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,3e5), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 3E5, by = 5E4), lty=2, col='gray80')
+
+# Simulation 2
+## Setting up vectors to hold our information
+c <- 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+p <- p2 # Production rate when treated by protease inhibitors; using second choice
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('p = ',p2,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,3e5), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 3E5, by = 5E4), lty=2, col='gray80')
+
+# Simulation 3
+## Setting up vectors to hold our information
+c <- 0.3256 # Average decay value of the three patients; DON'T CHANGE THIS VALUE
+p <- p3 # Production rate when treated by protease inhibitors; using third choice
+
+vector_t <- seq(from = 0, to = 20, by = delta_t) # The "seq" function tells R to create a vector that counts from 0 to 3 to hold our timepoints.
+vector_V <- NaN*vector_t # NaN stands for "Not a Number" and is a way of telling R to create a vector that's full of empty placeholders for future viral load data.
+vector_V[1] <- V0 # This tells R to save the initial viral load in the first position in our vector
+
+for(i in 2:length(vector_t)){ # This is our for loop. It's basically telling R: "For each timestep, do Euler's method..."
+  dt <- vector_t[i] - vector_t[i-1] # by first calculating the change in time based on the current value minus the past value,
+  Vprime <- p-c*vector_V[i-1] # then calculating the change in V based on the past value of V, and finally
+  vector_V[i] <- vector_V[i-1] + dt*Vprime # adding the change in V to the previous value of V
+}
+
+# Making our plot
+plot(x=vector_t, # Tell R what to put on the x-axis
+     y = vector_V, # Tell R what to put on the y-axis
+     type = 'l', # Plot as a line
+     xlab = 'Time (days)', # Label the x-axis
+     ylab = 'Viral Load (particles per mL)', # Label the y-axis
+     main = paste('p = ',p3,sep=''), # Add a title so we can distinguish the plots
+     ylim = c(0,3e5), # Add y-axis limits so all plots scale the same
+     )
+abline(v = seq(from = 0, to = 20, by = 5), lty=2, col='gray80') # Add grid lines to make it easier to plot on your worksheet
+abline(h = seq(from = 0, to = 3E5, by = 5E4), lty=2, col='gray80')
+```
+
+Draw these results on your worksheet and answer the questions about them there.
+
+

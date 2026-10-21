@@ -1,0 +1,61 @@
+name: Validate and publish marimo lab
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install tested dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Check notebook structure
+        run: python -m marimo check notebook.py
+      - name: Validate calculations and control dependencies
+        run: python validate.py
+      - name: Export student app with code hidden
+        run: |
+          mkdir -p site
+          python -m marimo export html-wasm notebook.py --no-sandbox --single-file --mode run --no-show-code -o site/index.html
+      - name: Upload website for deployment
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Publish website
+        id: deployment
+        uses: actions/deploy-pages@v4
