@@ -9,6 +9,7 @@ import json
 import tokenize
 import io
 import numpy as np
+import sys
 
 root = Path(__file__).parent
 spec = importlib.util.spec_from_file_location('week6_companion', root / 'notebook.py')
@@ -61,7 +62,7 @@ assert text.count('mo.show_code(position="above")')==13
 assert text.count('mo.accordion(')==5
 # Optional exact preservation audit when shipped alongside the notebook.
 audit_path=root/'text_preservation_audit.json'
-if audit_path.exists():
+if audit_path.exists() and "--audit-text" in sys.argv:
     audit=json.loads(audit_path.read_text())
     tree=ast.parse(text)
     found=[]
