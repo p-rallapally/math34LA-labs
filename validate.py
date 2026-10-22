@@ -42,12 +42,15 @@ for key, step in [
 ]:
     check(values[key], step)
 
+
 for key in ["clearance_results", "production_results"]:
     for result in values[key]:
         check(result, 0.01)
 
 assert len(values["long_result"]["t"]) == 21
-assert len(values["fine_result"]["t"]) == 2001
+assert len(values["fine_result"]["t"]) == (
+    round(20 / values["timestep"].value) + 1
+)
 assert len(values["clearance_fig"].data) == 3
 assert len(values["production_fig"].data) == 3
 
