@@ -68,7 +68,7 @@ def _(np):
 
     print(f"a = {a}")
 
-    print(f"vector_a = {vector_a.tolist()}")
+    print(f"vector_a = {vector_a.tolist()}") #if you were curious, '.tolist()' makes things into lists
 
     print(f"a * vector_a = {(a * vector_a).tolist()}")
     return
@@ -95,7 +95,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     c = 0.3256  # Average decay value of the three patients
     p = 0  # Production rate when treated by protease inhibitors
@@ -282,7 +282,7 @@ def _(mo):
     mo.md(r"""
     Finally, Euler's method gets more accurate as the timestep decreases (for this model over a fixed duration). Instead of adding spreadsheet rows, choose a smaller $\Delta t$.
 
-    Predict what will change before using the control. The original fine-step example used $\Delta t=0.01$ days. Notice how this smooths the curve!
+    Predict what will change before using the control. The original fine-step example used $\Delta t=0.01$ days.
     """)
     return
 
@@ -303,7 +303,7 @@ def _(mo):
     return (timestep,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(go, np, timestep):
     # Running our simulation
     _c = 0.3256  # Average decay value of the three patients
@@ -368,7 +368,7 @@ def _(mo):
     return c2, c3
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(c2, c3, go, make_subplots, np):
     # Running our simulation
     _c2 = c2.value  # Choose a new value using the c2 input above
@@ -474,7 +474,7 @@ def _(mo):
     return p1, p2, p3
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(go, make_subplots, np, p1, p2, p3):
     # Use the first, second, and third production choices from the inputs above.
     _productions = [p1.value, p2.value, p3.value]
