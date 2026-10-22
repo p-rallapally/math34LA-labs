@@ -38,7 +38,7 @@ jobs:
       - name: Export student app with code hidden
         run: |
           mkdir -p site
-          python -m marimo export html-wasm notebook.py --no-sandbox --single-file --mode edit  -o site/index.html
+          python -m marimo export html-wasm notebook.py --no-sandbox --single-file --mode edit -o site/index.html
       - name: Upload website for deployment
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
