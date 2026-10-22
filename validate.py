@@ -38,7 +38,7 @@ def check(result, step):
 for key, step in [
     ("short_result", 1),
     ("long_result", 1),
-    ("fine_result", 0.01),
+    ("fine_result", values["timestep"].value),
 ]:
     check(values[key], step)
 
