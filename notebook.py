@@ -289,17 +289,21 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    timestep = mo.ui.dropdown(
-        options={
-            "1": 1.0,
-            "0.5": 0.5,
-            "0.1": 0.1,
-            "0.01": 0.01,
-        },
-        value="0.01",
-        label="delta_t (days)",
+    timestep = mo.ui.slider(
+        steps=[0.01, 0.05, 0.1, 0.25, 0.5, 1.0],
+        value=0.01,
+        label="Timestep Δt (days)",
+        show_value=True,
     )
-    timestep
+
+    mo.md(
+        f"""
+        Adjust the timestep: {timestep}
+
+        Compare **1 day** with **0.01 days**.
+        What happens to the curve as the timestep decreases?
+        """
+    )
     return (timestep,)
 
 
